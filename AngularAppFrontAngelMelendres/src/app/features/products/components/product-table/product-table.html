@@ -1,1 +1,63 @@
-<p>product-table works!</p>
+<div class="table-card">
+  @if (loading) {
+    <div class="state-message">Cargando productos...</div>
+  } @else if (!products.length) {
+    <div class="state-message">No hay productos para mostrar.</div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>Logo</th>
+            <th>Nombre del producto</th>
+            <th>Descripción</th>
+            <th>Fecha de liberación</th>
+            <th>Fecha de reestructuración</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (product of products; track trackById($index, product)) {
+            <tr>
+              <td>
+                <div class="product-avatar">
+                  @if (product.logo) {
+                    <img [src]="product.logo" [alt]="product.name" />
+                  } @else {
+                    <span>{{ getInitials(product.name) }}</span>
+                  }
+                </div>
+              </td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ product.date_release }}</td>
+              <td>{{ product.date_revision }}</td>
+              <td class="actions-cell">
+                <app-product-actions-menu
+                  [product]="product"
+                  (edit)="editProduct.emit($event)"
+                  (delete)="deleteProduct.emit($event)"
+                />
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <div class="table-footer">
+    <span>{{ resultsCount }} Resultados</span>
+
+    <select
+      class="page-size-select"
+      [value]="pageSize"
+      (change)="onPageSizeSelect($event)"
+    >
+      @for (size of sizes; track size) {
+        <option [value]="size">{{ size }}</option>
+      }
+    </select>
+  </div>
+</div>

@@ -1,1 +1,12 @@
-<p>product-actions-menu works!</p>
+<div class="menu" (click)="stopPropagation($event)">
+  <button type="button" class="menu__trigger" (click)="toggleMenu()">
+    ⋮
+  </button>
+
+  @if (open()) {
+    <div class="menu__dropdown">
+      <button type="button" (click)="onEdit()">Editar</button>
+      <button type="button" (click)="onDelete()">Eliminar</button>
+    </div>
+  }
+</div>

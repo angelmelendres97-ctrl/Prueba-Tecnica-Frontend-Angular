@@ -1,1 +1,9 @@
-<p>product-search works!</p>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="value"
+    (input)="onInput()"
+    placeholder="Search..."
+    class="search-box__input"
+  />
+</div>

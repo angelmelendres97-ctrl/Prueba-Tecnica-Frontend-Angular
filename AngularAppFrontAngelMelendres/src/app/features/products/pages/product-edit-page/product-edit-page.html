@@ -1,1 +1,9 @@
-<p>product-edit-page works!</p>
+<section class="form-page">
+  @if (product(); as currentProduct) {
+    <app-product-form
+      mode="edit"
+      [product]="currentProduct"
+      (formSubmit)="onSubmit($event)"
+    />
+  }
+</section>

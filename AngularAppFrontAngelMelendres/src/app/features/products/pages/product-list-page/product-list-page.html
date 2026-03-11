@@ -1,1 +1,41 @@
-<p>product-list-page works!</p>
+<section class="products-page">
+  <header class="brand-header">
+    <div class="brand">
+      <span class="brand__icon"><img src="/logo.png" alt="Logo"></span>
+      <span class="brand__text">BANCO</span>
+    </div>
+  </header>
+
+  <div class="products-shell">
+    <div class="toolbar">
+      <app-product-search (searchChange)="onSearch($event)" />
+
+      <button class="btn btn--primary" type="button" (click)="goToCreate()">
+        Agregar
+      </button>
+    </div>
+
+    @if (facade.error(); as error) {
+      <div class="alert-error">
+        {{ error }}
+      </div>
+    }
+
+    <app-product-table
+      [products]="facade.visibleProducts()"
+      [resultsCount]="facade.resultsCount()"
+      [pageSize]="facade.pageSize()"
+      [loading]="facade.loading()"
+      (pageSizeChange)="onPageSizeChange($event)"
+      (editProduct)="onEdit($event)"
+      (deleteProduct)="onDeleteClick($event)"
+    />
+  </div>
+
+  <app-delete-product-modal
+    [isOpen]="modalOpen()"
+    [productName]="productToDelete()?.name ?? ''"
+    (cancel)="onCancelDelete()"
+    (confirm)="onConfirmDelete()"
+  />
+</section>

@@ -1,1 +1,19 @@
-<p>delete-product-modal works!</p>
+@if (isOpen) {
+  <div class="overlay">
+    <div class="modal">
+      <div class="modal__body">
+        <h3>¿Estas seguro de eliminar el producto {{ productName }}?</h3>
+      </div>
+
+      <div class="modal__footer">
+        <button type="button" class="btn btn--secondary" (click)="cancel.emit()">
+          Cancelar
+        </button>
+
+        <button type="button" class="btn btn--primary" (click)="confirm.emit()">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+}

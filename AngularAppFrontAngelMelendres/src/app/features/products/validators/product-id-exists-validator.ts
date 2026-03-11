@@ -18,7 +18,9 @@ export function productIdExistsValidator(): AsyncValidatorFn {
     }
 
     return api.verifyProductId(value).pipe(
-      map(exists => (exists ? { productIdExists: true } : null)),
+      map((exists: boolean) => {
+        return exists ? { productIdExists: true } : null;
+      }),
       catchError(() => of(null))
     );
   };
