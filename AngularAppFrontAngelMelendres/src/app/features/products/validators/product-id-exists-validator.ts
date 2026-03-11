@@ -1,4 +1,3 @@
-import { inject } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -7,9 +6,7 @@ import {
 import { map, of, catchError } from 'rxjs';
 import { ProductsApi } from '../services/products-api';
 
-export function productIdExistsValidator(): AsyncValidatorFn {
-  const api = inject(ProductsApi);
-
+export function productIdExistsValidator(api: ProductsApi): AsyncValidatorFn {
   return (control: AbstractControl) => {
     const value = control.value?.trim();
 
@@ -18,9 +15,9 @@ export function productIdExistsValidator(): AsyncValidatorFn {
     }
 
     return api.verifyProductId(value).pipe(
-      map((exists: boolean) => {
-        return exists ? { productIdExists: true } : null;
-      }),
+      map((exists: boolean): ValidationErrors | null =>
+        exists ? { productIdExists: true } : null
+      ),
       catchError(() => of(null))
     );
   };

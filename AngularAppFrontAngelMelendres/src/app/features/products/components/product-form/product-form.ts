@@ -17,7 +17,7 @@ import { Product } from '../../models/product';
 import { environment } from '../../../../../environments/environment';
 import { revisionDateValidator } from '../../validators/revision-date-validator';
 import { productIdExistsValidator } from '../../validators/product-id-exists-validator';
-
+import { ProductsApi } from '../../services/products-api';
 @Component({
   selector: 'app-product-form',
   imports: [CommonModule, ReactiveFormsModule],
@@ -26,7 +26,7 @@ import { productIdExistsValidator } from '../../validators/product-id-exists-val
 })
 export class ProductForm implements OnChanges {
   private readonly fb = inject(FormBuilder);
-
+  private readonly productsApi = inject(ProductsApi);
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() product: Product | null = null;
   @Output() formSubmit = new EventEmitter<any>();
@@ -41,8 +41,9 @@ export class ProductForm implements OnChanges {
           Validators.minLength(3),
           Validators.maxLength(10),
         ],
-        asyncValidators: this.mode === 'create' ? [productIdExistsValidator()] : [],
-        updateOn: 'blur',
+        asyncValidators: this.mode === 'create'
+          ? [productIdExistsValidator(this.productsApi)]
+          : [], updateOn: 'blur',
       }),
       name: this.fb.nonNullable.control('', [
         Validators.required,
@@ -77,8 +78,9 @@ export class ProductForm implements OnChanges {
       this.form.get('id')?.disable();
     } else if (this.mode === 'create') {
       this.form.get('id')?.enable();
-      this.form.get('id')?.setAsyncValidators([productIdExistsValidator()]);
-      this.form.get('id')?.updateValueAndValidity();
+      this.form
+        .get('id')
+        ?.setAsyncValidators([productIdExistsValidator(this.productsApi)]); this.form.get('id')?.updateValueAndValidity();
     }
   }
 

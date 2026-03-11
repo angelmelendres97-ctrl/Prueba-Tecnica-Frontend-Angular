@@ -19,4 +19,30 @@ describe('DeleteProductModal', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit confirm', () => {
+    const spy = vi.spyOn(component.confirm, 'emit');
+
+    component.confirm.emit();
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should emit cancel', () => {
+    const spy = vi.spyOn(component.cancel, 'emit');
+
+    component.cancel.emit();
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should receive input values', () => {
+    fixture.componentRef.setInput('isOpen', true);
+    fixture.componentRef.setInput('productName', 'Producto Test');
+
+    fixture.detectChanges();
+
+    expect(component.isOpen).toBe(true);
+    expect(component.productName).toBe('Producto Test');
+  });
 });

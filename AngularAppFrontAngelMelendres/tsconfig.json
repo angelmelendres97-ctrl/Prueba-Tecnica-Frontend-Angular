@@ -22,6 +22,12 @@
     "strictTemplates": true
   },
   "files": [],
+
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
   "references": [
     {
       "path": "./tsconfig.app.json"
